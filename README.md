@@ -29,7 +29,7 @@ This project involves an Arduino sketch for tracking public IP addresses and PHP
 
 1. Connect the ESP8266 board to a power source and ensure it's connected to the WiFi network.
 2. The Arduino code will periodically fetch the public IP address and send it to the `save_ip.php` script on your server.
-3. Access the `display_ips.php` script in your web browser to view the saved IP addresses in a modern UI.
+3. Access the `display_ips.php` script in your web browser to view the saved Latest 2 IP addresse entries from Database in a UI.
 
 ## Contributing
 
