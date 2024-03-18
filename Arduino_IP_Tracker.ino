@@ -8,10 +8,12 @@ const char *phpScriptUrl = "http://YOUR-DOMAIN.com/save_ip.php";
 const char *ipifyUrl = "http://api.ipify.org/?format=json"; //Dont change, This Will Fetch public IP address from ipify
 const char *databaseFetchUrl = "http://YOUR-DOMAIN.com/fetch_data.php";
 
+const int ledPin = LED_BUILTIN; // ESP8266 built-in LED pin
 WiFiClient client;
 
 void setup() {
     Serial.begin(115200);
+    pinMode(ledPin, OUTPUT); // Set the LED pin as output
 
     WiFi.begin(ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
@@ -19,6 +21,12 @@ void setup() {
         Serial.println("Connecting to WiFi..");
     }
     Serial.println("Connected to WiFi.");
+}
+
+void blinkLED() {
+    digitalWrite(ledPin, LOW);
+    delay(10);
+    digitalWrite(ledPin, HIGH);
 }
 
 void loop() {
@@ -46,6 +54,7 @@ void loop() {
 
                     if (httpCode == HTTP_CODE_OK) {
                         Serial.println("Public IP sent to server.");
+                        blinkLED(); // Blink LED on successful data send
                     } else {
                         Serial.print("Failed to send public IP to server. Error code: ");
                         Serial.println(httpCode);
@@ -73,6 +82,7 @@ void loop() {
                 String payload = http.getString();
                 Serial.println("Data received from server:");
                 Serial.println(payload);
+                blinkLED(); // Blink LED on successful data receive
                 // Parse and handle the received data here
             } else {
                 Serial.print("Failed to fetch data from server. Error code: ");
@@ -85,5 +95,5 @@ void loop() {
         }
     }
 
-    delay(5000); // Update IP and fetch data every minute
+    delay(30000); // Update IP and fetch data every 30 Seconds
 }
